@@ -12,3 +12,6 @@ Step 3) - Fancy visualisations...... maybe a FFT spectrogram ?
 
 
 Anyway here is the posted site if you want to check it out: https://efraimdahl.github.io/algo-muzak/
+
+ALso a source of inspiration for this, reorchestration of a solo instrumental timbre 
+https://www.youtube.com/watch?v=1v7onrjN6RE
