@@ -22,7 +22,7 @@ nodes = [];
 gainz = [];
 
 
-function adsr (param, peak, val, time, a, d, s) {
+function adsr (param, peak, val, time, a, d) {
   /*
                 peak
                 /\   val  val
@@ -38,17 +38,17 @@ function adsr (param, peak, val, time, a, d, s) {
   param.setValueAtTime(0, time)
   param.linearRampToValueAtTime(peak, time+a)
   param.linearRampToValueAtTime(val, time+a+d)
-  param.linearRampToValueAtTime(val, time+a+d+s)
+ ///param.linearRampToValueAtTime(val, time+a+d+s)
 }
 
-const p = 0.3 // peak value for all tones
-const v = 0.1 
+const p = 0.7 // peak value for all tones
+const v = 0.4 
 
 keyboard.keyDown = function (note, frequency) {
     var oscillator = ctx.createOscillator();
     var oscGain = ctx.createGain();
     oscGain.gain.value = 0.2;
-    adsr(oscGain.gain, p,v, ctx.currentTime, 1,0.1,0.4)
+    adsr(oscGain.gain, p,v, ctx.currentTime, 0.2,0.1)
     oscGain.connect(ctx.destination); 
     oscillator.type = 'sine';
     oscillator.frequency.value = frequency;
@@ -68,8 +68,9 @@ function stopNotes(i){
 keyboard.keyUp = function (note, frequency) {
    for (var i = 0; i < nodes.length; i++) {
          if (Math.round(nodes[i].frequency.value) == Math.round(frequency)) {
-             gainz[i].gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4)
-             setTimeout(stopNotes(i),1000);  
+             gainz[i].gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+1)
+             nodes[i].stop(ctx.currentTime+1.1)
+             //setTimeout(stopNotes,1000,i);  
          }
         }
     // var new_nodes = [];
